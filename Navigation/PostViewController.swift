@@ -22,6 +22,7 @@ class PostViewController: UIViewController {
             action: #selector(infoButtonPressed))
     }
 
+    
     @objc private func infoButtonPressed() {
         let infoViewController = InfoViewController()
         present(infoViewController, animated: true)
