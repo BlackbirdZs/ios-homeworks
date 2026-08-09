@@ -21,7 +21,7 @@ class ProfileHeaderView: UIView {
 
     lazy var nameLabel: UILabel = {
         let nameLabel = UILabel()
-        nameLabel.text = "Hipster cat"
+        nameLabel.text = "Hipster Shadowheart"
         nameLabel.textColor = .black
         nameLabel.font = UIFont.boldSystemFont(ofSize: 18)
         return nameLabel
@@ -45,6 +45,9 @@ class ProfileHeaderView: UIView {
         statusButton.layer.shadowRadius = 4
         statusButton.layer.shadowOffset = .init(width: 4, height: 4)
         statusButton.layer.shadowOpacity = 0.7
+        
+        statusButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+
         return statusButton
     }()
     
@@ -62,7 +65,7 @@ class ProfileHeaderView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        avatar.frame = CGRect(x: 16, y: 16, width: 120, height: 120)
+        avatar.frame = CGRect(x: 16, y: 16, width: 100, height: 100)
         
         nameLabel.frame = CGRect(
             x: avatar.frame.maxX + 16,
@@ -75,16 +78,20 @@ class ProfileHeaderView: UIView {
             x: nameLabel.frame.minX,
             y: nameLabel.frame.maxY + 6,
             width: nameLabel.frame.width,
-            height: 22
+            height: 20
             )
         
         
         statusButton.frame = CGRect(
             x:16,
-            y: statusLabel.frame.maxY + 34,
+            y: avatar.frame.maxY + 34,
             width: bounds.width - 32,
             height: 50
             )
+    }
+    
+    @objc func buttonPressed() {
+        print(statusLabel.text ?? "")
     }
     
 }
