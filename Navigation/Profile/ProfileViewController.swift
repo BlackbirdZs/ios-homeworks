@@ -11,7 +11,6 @@ class ProfileViewController: UIViewController {
     
     let profileHeaderView = ProfileHeaderView()
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -28,5 +27,4 @@ class ProfileViewController: UIViewController {
             height: view.bounds.height - view.safeAreaInsets.top
         )
     }
-
 }
