@@ -8,40 +8,50 @@
 import UIKit
 
 class FeedViewController: UIViewController {
-    private lazy var actionButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("View the post", for: .normal)
+    private lazy var firstButton: UIButton = {
+        let firstButton = UIButton()
+        firstButton.translatesAutoresizingMaskIntoConstraints = false
+        firstButton.setTitle("View the post", for: .normal)
 
-        return button
+        return firstButton
+    }()
+
+    private lazy var secondButton: UIButton = {
+        let secondButton = UIButton()
+        secondButton.translatesAutoresizingMaskIntoConstraints = false
+        secondButton.setTitle("View the post", for: .normal)
+
+        return secondButton
+    }()
+
+    private lazy var buttonsStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [firstButton, secondButton])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.spacing = 10
+
+        return stackView
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .blue
 
-        view.addSubview(actionButton)
+        view.addSubview(buttonsStackView)
 
         let safeAreaLayoutGuide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            actionButton.leadingAnchor.constraint(
-                equalTo: safeAreaLayoutGuide.leadingAnchor,
-                constant: 20.0
-            ),
-            actionButton.trailingAnchor.constraint(
-                equalTo: safeAreaLayoutGuide.trailingAnchor,
-                constant: -20.0
-            ),
-            actionButton.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor),
-            actionButton.heightAnchor.constraint(equalToConstant: 44.0),
+            buttonsStackView.centerXAnchor.constraint(
+                equalTo: safeAreaLayoutGuide.centerXAnchor),
+            buttonsStackView.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor),
         ])
-
-        actionButton.addTarget(self, action: #selector(buttonPressed(_:)), for: .touchUpInside)
+        firstButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        secondButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
     }
 
     let post = Post(title: "My post")
 
-    @objc func buttonPressed(_ sender: UIButton) {
+    @objc func buttonPressed() {
         let postViewController = PostViewController()
         postViewController.post = post
         navigationController?.pushViewController(postViewController, animated: true)
