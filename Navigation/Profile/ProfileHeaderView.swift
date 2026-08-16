@@ -25,6 +25,7 @@ class ProfileHeaderView: UIView {
 
     lazy var fullNameLabel: UILabel = {
         let fullNameLabel = UILabel()
+        fullNameLabel.translatesAutoresizingMaskIntoConstraints = false
         fullNameLabel.text = "Hipster Shadowheart"
         fullNameLabel.textColor = .black
         fullNameLabel.font = UIFont.boldSystemFont(ofSize: 18)
@@ -33,6 +34,7 @@ class ProfileHeaderView: UIView {
     
     lazy var statusLabel: UILabel = {
         let statusLabel = UILabel()
+        statusLabel.translatesAutoresizingMaskIntoConstraints = false
         statusLabel.text = "Waiting for something..."
         statusLabel.textColor = .gray
         statusLabel.font = UIFont.systemFont(ofSize: 14)
@@ -41,6 +43,7 @@ class ProfileHeaderView: UIView {
     
     lazy var setStatusButton: UIButton = {
         let setStatusButton = UIButton()
+        setStatusButton.translatesAutoresizingMaskIntoConstraints = false
         setStatusButton.setTitle("Set status", for: .normal)
         setStatusButton.setTitleColor(.white, for: .normal)
         setStatusButton.backgroundColor = .systemBlue
@@ -57,6 +60,7 @@ class ProfileHeaderView: UIView {
     
     lazy var statusTextField: UITextField = {
         let statusTextField = UITextField()
+        statusTextField.translatesAutoresizingMaskIntoConstraints = false
         statusTextField.layer.borderColor = UIColor.black.cgColor
         statusTextField.layer.cornerRadius = 12
         statusTextField.layer.borderWidth = 1
