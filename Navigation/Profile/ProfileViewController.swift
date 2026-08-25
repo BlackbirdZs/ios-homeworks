@@ -8,25 +8,35 @@
 import UIKit
 
 class ProfileViewController: UIViewController {
-    
     let profileHeaderView = ProfileHeaderView()
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = .lightGray
         view.addSubview(profileHeaderView)
-    }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        profileHeaderView.frame = CGRect(
-            x: 0,
-            y: view.safeAreaInsets.top,
-            width: view.bounds.width,
-            height: view.bounds.height - view.safeAreaInsets.top
-        )
+        view.addSubview(newButton)
+
+        profileHeaderView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            profileHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            profileHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            profileHeaderView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            profileHeaderView.heightAnchor.constraint(equalToConstant: 220),
+
+            newButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            newButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            newButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            newButton.heightAnchor.constraint(equalToConstant: 50),
+        ])
     }
 
+    private lazy var newButton: UIButton = {
+        let newButton = UIButton()
+        newButton.translatesAutoresizingMaskIntoConstraints = false
+        newButton.setTitle("Some new button", for: .normal)
+        newButton.backgroundColor = .gray
+        return newButton
+    }()
 }
