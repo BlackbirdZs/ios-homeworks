@@ -15,12 +15,7 @@ class LogInViewController: UIViewController {
      lazy var labelImageView: UIImageView = {
         let labelImageView = UIImageView()
          labelImageView.translatesAutoresizingMaskIntoConstraints = false
-         labelImageView.layer.cornerRadius = 50
-         labelImageView.layer.masksToBounds = true
-         labelImageView.layer.borderWidth = 3
-         labelImageView.layer.borderColor = UIColor.white.cgColor
          labelImageView.image = UIImage(named: "VKLogo")
-
         return labelImageView
     }()
     
@@ -29,16 +24,17 @@ class LogInViewController: UIViewController {
         
         view.backgroundColor = .white
         view.addSubview(labelImageView)
-      
-        
-        
-        /*
-         // Only override draw() if you perform custom drawing.
-         // An empty implementation adversely affects performance during animation.
-         override func draw(_ rect: CGRect) {
-         // Drawing code
-         }
-         */
-        
+    
+        setupConstraints()
     }
+    
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+        labelImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 120),
+        labelImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+        labelImageView.heightAnchor.constraint(equalToConstant: 100),
+        labelImageView.widthAnchor.constraint(equalToConstant: 100),
+])
+    }
+
 }
