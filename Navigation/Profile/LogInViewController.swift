@@ -7,6 +7,23 @@ class LogInViewController: UIViewController {
     private var loginText: String = ""
     private var passwordText: String = ""
     
+    private lazy var scrollView: UIScrollView = {
+      let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsVerticalScrollIndicator = true
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.backgroundColor = .white
+        return scrollView
+    }()
+    
+    private lazy var contentView: UIView = {
+        let contentView = UIView()
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.backgroundColor = .white
+        
+        return contentView
+    }()
+    
      lazy var labelImageView: UIImageView = {
         let labelImageView = UIImageView()
          labelImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -68,39 +85,43 @@ class LogInViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        view.addSubview(labelImageView)
-        view.addSubview(fieldsContainerView)
-        view.addSubview(containerViewLine)
+        view.addSubview(contentView)
+        view.addSubview(scrollView)
+        contentView.addSubview(labelImageView)
+        contentView.addSubview(fieldsContainerView)
+        contentView.addSubview(containerViewLine)
         fieldsContainerView.addSubview(loginTextField)
         fieldsContainerView.addSubview(passwordTextField)
-        view.addSubview(loginButton)
-        navigationController?.navigationBar.isHidden = true
+        contentView.addSubview(loginButton)
+        scrollView.addSubview(contentView)
         
+        navigationController?.navigationBar.isHidden = true
+
         setupConstraints()
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-        labelImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 120),
-        labelImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+        labelImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 120),
+        labelImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
         labelImageView.heightAnchor.constraint(equalToConstant: 100),
         labelImageView.widthAnchor.constraint(equalToConstant: 100),
         
         fieldsContainerView.heightAnchor.constraint(equalToConstant: 100),
         fieldsContainerView.topAnchor.constraint(equalTo: labelImageView.bottomAnchor, constant: 120),
-        fieldsContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-        fieldsContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+        fieldsContainerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+        fieldsContainerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
         
         containerViewLine.heightAnchor.constraint(equalToConstant: 1),
-        containerViewLine.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-        containerViewLine.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+        containerViewLine.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+        containerViewLine.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
         containerViewLine.topAnchor.constraint(equalTo: fieldsContainerView.topAnchor, constant: 50),
 
         loginButton.topAnchor.constraint(equalTo: fieldsContainerView.bottomAnchor, constant: 16),
         loginButton.widthAnchor.constraint(equalTo: fieldsContainerView.widthAnchor),
         loginButton.heightAnchor.constraint(equalToConstant: 50),
-        loginButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-        loginButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+        loginButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+        loginButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
         
         loginTextField.topAnchor.constraint(equalTo: fieldsContainerView.topAnchor, constant: 5),
         loginTextField.bottomAnchor.constraint(equalTo: containerViewLine.topAnchor, constant: -5),
@@ -111,6 +132,16 @@ class LogInViewController: UIViewController {
         passwordTextField.bottomAnchor.constraint(equalTo: fieldsContainerView.bottomAnchor, constant: -5),
         passwordTextField.leadingAnchor.constraint(equalTo: fieldsContainerView.leadingAnchor, constant: 15),
         passwordTextField.trailingAnchor.constraint(equalTo: fieldsContainerView.trailingAnchor, constant: -15),
+        
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+        scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+        scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        scrollView.heightAnchor.constraint(equalTo: view.heightAnchor),
+        
+        contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+        contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+        contentView.bottomAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 20)
 ])
     }
     
@@ -118,5 +149,4 @@ class LogInViewController: UIViewController {
         let profileViewController = ProfileViewController()
         navigationController?.pushViewController(profileViewController, animated: true)
     }
-          
 }
