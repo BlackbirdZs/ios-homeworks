@@ -35,7 +35,6 @@ class LogInViewController: UIViewController {
         return fieldsContainerView
     }()
     
-    
     lazy var containerViewLine: UIView = {
         let containerViewLine = UIView()
         containerViewLine.translatesAutoresizingMaskIntoConstraints = false
@@ -71,9 +70,8 @@ class LogInViewController: UIViewController {
         containerViewLine.heightAnchor.constraint(equalToConstant: 1),
         containerViewLine.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
         containerViewLine.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-        containerViewLine.topAnchor.constraint(equalTo: fieldsContainerView.topAnchor, constant: 25),
-        containerViewLine.bottomAnchor.constraint(equalTo: fieldsContainerView.bottomAnchor, constant: -25),
-        
+        containerViewLine.topAnchor.constraint(equalTo: fieldsContainerView.topAnchor, constant: 50),
+
         loginButton.topAnchor.constraint(equalTo: fieldsContainerView.bottomAnchor, constant: 16),
         loginButton.widthAnchor.constraint(equalTo: fieldsContainerView.widthAnchor),
         loginButton.heightAnchor.constraint(equalToConstant: 50),
