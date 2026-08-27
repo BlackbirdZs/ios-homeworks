@@ -20,7 +20,12 @@ class LogInViewController: UIViewController {
         loginButton.setTitle("Log in", for: .normal)
         loginButton.setTitleColor(.white, for: .normal)
         loginButton.layer.cornerRadius = 10
-        loginButton.backgroundColor = .VK
+        loginButton.clipsToBounds = true
+
+        loginButton.setBackgroundImage(UIImage(named: "bluePixel"), for: .normal)
+        loginButton.setBackgroundImage(UIImage(named: "bluePixel"), for: .highlighted)
+        loginButton.setBackgroundImage(UIImage(named: "bluePixel"), for: .selected)
+        loginButton.setBackgroundImage(UIImage(named: "bluePixel"), for: .disabled)
         return loginButton
     }()
     
@@ -42,6 +47,22 @@ class LogInViewController: UIViewController {
         return containerViewLine
     }()
     
+    lazy var loginTextField: UITextField = {
+        let loginTextField = UITextField()
+        loginTextField.translatesAutoresizingMaskIntoConstraints = false
+        loginTextField.placeholder = "Email or phone"
+        loginTextField.autocapitalizationType = .none
+        return loginTextField
+    }()
+    
+    lazy var passwordTextField: UITextField = {
+        let passwordTextField = UITextField()
+        passwordTextField.translatesAutoresizingMaskIntoConstraints = false
+        passwordTextField.placeholder = "Password"
+        passwordTextField.isSecureTextEntry = true
+        return passwordTextField
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -49,8 +70,10 @@ class LogInViewController: UIViewController {
         view.addSubview(labelImageView)
         view.addSubview(fieldsContainerView)
         view.addSubview(containerViewLine)
+        fieldsContainerView.addSubview(loginTextField)
+        fieldsContainerView.addSubview(passwordTextField)
         view.addSubview(loginButton)
-    
+        
         setupConstraints()
     }
     
@@ -62,7 +85,6 @@ class LogInViewController: UIViewController {
         labelImageView.widthAnchor.constraint(equalToConstant: 100),
         
         fieldsContainerView.heightAnchor.constraint(equalToConstant: 100),
-        fieldsContainerView.widthAnchor.constraint(equalToConstant: 100),
         fieldsContainerView.topAnchor.constraint(equalTo: labelImageView.bottomAnchor, constant: 120),
         fieldsContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
         fieldsContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
@@ -77,6 +99,16 @@ class LogInViewController: UIViewController {
         loginButton.heightAnchor.constraint(equalToConstant: 50),
         loginButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
         loginButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+        
+        loginTextField.topAnchor.constraint(equalTo: fieldsContainerView.topAnchor, constant: 5),
+        loginTextField.bottomAnchor.constraint(equalTo: containerViewLine.topAnchor, constant: -5),
+        loginTextField.leadingAnchor.constraint(equalTo: fieldsContainerView.leadingAnchor, constant: 15),
+        loginTextField.trailingAnchor.constraint(equalTo: fieldsContainerView.trailingAnchor, constant: -15),
+        
+        passwordTextField.topAnchor.constraint(equalTo: containerViewLine.bottomAnchor, constant: 5),
+        passwordTextField.bottomAnchor.constraint(equalTo: fieldsContainerView.bottomAnchor, constant: -5),
+        passwordTextField.leadingAnchor.constraint(equalTo: fieldsContainerView.leadingAnchor, constant: 15),
+        passwordTextField.trailingAnchor.constraint(equalTo: fieldsContainerView.trailingAnchor, constant: -15),
 ])
     }
 }
