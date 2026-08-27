@@ -26,6 +26,7 @@ class LogInViewController: UIViewController {
         loginButton.setBackgroundImage(UIImage(named: "bluePixel"), for: .highlighted)
         loginButton.setBackgroundImage(UIImage(named: "bluePixel"), for: .selected)
         loginButton.setBackgroundImage(UIImage(named: "bluePixel"), for: .disabled)
+        loginButton.addTarget(self, action: #selector(loginButtonPressed), for: .touchUpInside)
         return loginButton
     }()
     
@@ -73,6 +74,7 @@ class LogInViewController: UIViewController {
         fieldsContainerView.addSubview(loginTextField)
         fieldsContainerView.addSubview(passwordTextField)
         view.addSubview(loginButton)
+        navigationController?.navigationBar.isHidden = true
         
         setupConstraints()
     }
@@ -111,4 +113,10 @@ class LogInViewController: UIViewController {
         passwordTextField.trailingAnchor.constraint(equalTo: fieldsContainerView.trailingAnchor, constant: -15),
 ])
     }
+    
+    @objc func loginButtonPressed() {
+        let profileViewController = ProfileViewController()
+        navigationController?.pushViewController(profileViewController, animated: true)
+    }
+          
 }
