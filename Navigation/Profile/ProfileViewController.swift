@@ -47,6 +47,8 @@ import UIKit
 class ProfileViewController: UIViewController {
     let profileHeaderView = ProfileHeaderView()
     
+    fileprivate let post = FeedPost.make()
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView.init(
             frame: .zero,
@@ -59,8 +61,8 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .lightGray
-        
+        view.backgroundColor = .systemBackground
+
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -68,12 +70,13 @@ class ProfileViewController: UIViewController {
     }
     
     private func setupConstraints() {
+        let safeAreaGuide = view.safeAreaLayoutGuide
+        
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            tableView.topAnchor.constraint(equalTo: safeAreaGuide.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: safeAreaGuide.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor),
         ])
     }
     
@@ -85,16 +88,13 @@ class ProfileViewController: UIViewController {
     
 extension ProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        post.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         <#code#>
     }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        1
-    }
+
 }
 
 extension ProfileViewController: UITableViewDelegate {}
