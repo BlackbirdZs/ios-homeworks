@@ -10,7 +10,7 @@ import UIKit
 class ProfileViewController: UIViewController {
     let profileHeaderView = ProfileHeaderView()
 
-    fileprivate let post = FeedPost.make()
+    fileprivate let posts = FeedPost.make()
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView(
@@ -27,10 +27,8 @@ class ProfileViewController: UIViewController {
         view.backgroundColor = .systemBackground
 
         addSubviews()
-        tableView.delegate = self
-        tableView.dataSource = self
-
         setupConstraints()
+        tuneTableView()
     }
 
     private func setupConstraints() {
@@ -43,6 +41,17 @@ class ProfileViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor),
         ])
     }
+    
+    private func tuneTableView() {
+        
+        let headerView = ProfileHeaderView()
+        tableView.tableHeaderView = headerView
+        tableView.tableFooterView = UIView()
+        
+        tableView.register(PostTableViewCell.self, forCellReuseIdentifier: "Base cell")
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
 
     private func addSubviews() {
         view.addSubview(tableView)
@@ -50,14 +59,22 @@ class ProfileViewController: UIViewController {
 }
 
 extension ProfileViewController: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        post.count
+        posts.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: "Base cell",
+                for: indexPath
+            ) as? PostTableViewCell else {
+                fatalError("could not dequeueReusableCell")
+            }
+            return cell
     }
 }
+
 
 extension ProfileViewController: UITableViewDelegate {}
 
