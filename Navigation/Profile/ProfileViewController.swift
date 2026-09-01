@@ -7,7 +7,61 @@
 
 import UIKit
 
-//class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController {
+    let profileHeaderView = ProfileHeaderView()
+
+    fileprivate let post = FeedPost.make()
+
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(
+            frame: .zero,
+            style: .plain
+        )
+
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .systemBackground
+
+        addSubviews()
+        tableView.delegate = self
+        tableView.dataSource = self
+
+        setupConstraints()
+    }
+
+    private func setupConstraints() {
+        let safeAreaGuide = view.safeAreaLayoutGuide
+
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: safeAreaGuide.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: safeAreaGuide.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor),
+        ])
+    }
+
+    private func addSubviews() {
+        view.addSubview(tableView)
+    }
+}
+
+extension ProfileViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        post.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        <#code#>
+    }
+}
+
+extension ProfileViewController: UITableViewDelegate {}
+
+// class ProfileViewController: UIViewController {
 //    let profileHeaderView = ProfileHeaderView()
 //
 //    override func viewDidLoad() {
@@ -41,63 +95,4 @@ import UIKit
 //        return newButton
 //    }()
 //
-//}
-
-
-class ProfileViewController: UIViewController {
-    let profileHeaderView = ProfileHeaderView()
-    
-    fileprivate let post = FeedPost.make()
-    
-    private lazy var tableView: UITableView = {
-        let tableView = UITableView.init(
-            frame: .zero,
-            style: .plain
-        )
-        
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        return tableView
-    }()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-
-        tableView.delegate = self
-        tableView.dataSource = self
-        
-        setupConstraints()
-    }
-    
-    private func setupConstraints() {
-        let safeAreaGuide = view.safeAreaLayoutGuide
-        
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: safeAreaGuide.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: safeAreaGuide.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor),
-        ])
-    }
-    
-    private func addSubviews() {
-        view.addSubview(tableView)
-    }
-    
-}
-    
-extension ProfileViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        post.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
-    }
-
-}
-
-extension ProfileViewController: UITableViewDelegate {}
-        
-
-
+// }
