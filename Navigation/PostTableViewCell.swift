@@ -114,7 +114,7 @@ class PostTableViewCell: UITableViewCell {
         contentView.backgroundColor = .white
         accessoryType = .none
     }
-    
+
     func configure(with post: FeedPost) {
         aboveLabel.text = post.author
         imageField.image = UIImage(named: post.image)
@@ -122,7 +122,7 @@ class PostTableViewCell: UITableViewCell {
         likesLabel.text = "Likes \(post.likes)"
         viewsLabel.text = "Views \(post.views)"
     }
-    
+
     private func addSubviewsPost() {
         contentView.addSubview(aboveLabel)
         contentView.addSubview(imageField)

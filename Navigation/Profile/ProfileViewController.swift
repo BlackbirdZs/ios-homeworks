@@ -41,9 +41,8 @@ class ProfileViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor),
         ])
     }
-    
+
     private func tuneTableView() {
-    
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: "Base cell")
         tableView.delegate = self
         tableView.dataSource = self
@@ -55,18 +54,17 @@ class ProfileViewController: UIViewController {
 }
 
 extension ProfileViewController: UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         posts.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: "Base cell",
-                for: indexPath
-            ) as? PostTableViewCell else {
-                fatalError("could not dequeueReusableCell")
-            }
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: "Base cell",
+            for: indexPath
+        ) as? PostTableViewCell else {
+            fatalError("could not dequeueReusableCell")
+        }
         let post = posts[indexPath.row]
         cell.configure(with: post)
         return cell
@@ -74,11 +72,10 @@ extension ProfileViewController: UITableViewDataSource {
 }
 
 extension ProfileViewController: UITableViewDelegate {
-    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return profileHeaderView
     }
-    
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 220
     }
