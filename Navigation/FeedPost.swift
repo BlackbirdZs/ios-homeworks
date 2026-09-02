@@ -18,10 +18,10 @@ struct FeedPost {
 extension FeedPost {
     static func make() -> [FeedPost] {
         [
-            FeedPost(author: "John", description: "I like to cook!", image: "avatar", likes: 18, views: 9),
-            FeedPost(author: "Jane", description: "I love to drive!", image: "avatar", likes: 20, views: 16),
-            FeedPost(author: "Jean", description: "I like to climb mountains", image: "avatar", likes: 15, views: 13),
-            FeedPost(author: "Joon", description: "I like to read!", image: "avatar", likes: 5, views: 9),
+            FeedPost(author: "Shadowheart", description: "I feel bad for stealing that gold...", image: "postersh", likes: 34, views: 45),
+            FeedPost(author: "Minthara", description: "I want to use that power somehow, no one can stop me.", image: "postermn", likes: 20, views: 29),
+            FeedPost(author: "Mizora", description: "His soul will be mine! And soon others will follow...", image: "postermz", likes: 15, views: 17),
+            FeedPost(author: "Karlach", description: "Too many blood on my axe, gotta clean it before we go kill someone else!", image: "posterkl", likes: 5, views: 10),
         ]
     }
 }

@@ -43,11 +43,7 @@ class ProfileViewController: UIViewController {
     }
     
     private func tuneTableView() {
-        
-        let headerView = ProfileHeaderView()
-        tableView.tableHeaderView = headerView
-        tableView.tableFooterView = UIView()
-        
+    
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: "Base cell")
         tableView.delegate = self
         tableView.dataSource = self
@@ -71,45 +67,19 @@ extension ProfileViewController: UITableViewDataSource {
             ) as? PostTableViewCell else {
                 fatalError("could not dequeueReusableCell")
             }
-            return cell
+        let post = posts[indexPath.row]
+        cell.configure(with: post)
+        return cell
     }
 }
 
-
-extension ProfileViewController: UITableViewDelegate {}
-
-// class ProfileViewController: UIViewController {
-//    let profileHeaderView = ProfileHeaderView()
-//
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//
-
-//        view.backgroundColor = .lightGray
-//        view.addSubview(profileHeaderView)
-//        view.addSubview(newButton)
-//
-//        profileHeaderView.translatesAutoresizingMaskIntoConstraints = false
-//
-//        NSLayoutConstraint.activate([
-//            profileHeaderView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            profileHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//            profileHeaderView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-//            profileHeaderView.heightAnchor.constraint(equalToConstant: 220),
-//
-//            newButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            newButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//            newButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-//            newButton.heightAnchor.constraint(equalToConstant: 50),
-//        ])
-//    }
-//
-//    private lazy var newButton: UIButton = {
-//        let newButton = UIButton()
-//        newButton.translatesAutoresizingMaskIntoConstraints = false
-//        newButton.setTitle("Some new button", for: .normal)
-//        newButton.backgroundColor = .gray
-//        return newButton
-//    }()
-//
-// }
+extension ProfileViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return profileHeaderView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 220
+    }
+}
