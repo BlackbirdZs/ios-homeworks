@@ -30,7 +30,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         feedViewController.tabBarItem.image = UIImage(systemName: "square.fill.text.grid.1x2")
         loginViewController.tabBarItem.image = UIImage(systemName: "person.crop.rectangle.stack")
 
-        let controllers = [feedViewController,loginViewController]
+        let controllers = [feedViewController, loginViewController]
         tabBarController.viewControllers = controllers.map {
             UINavigationController(rootViewController: $0)
         }
