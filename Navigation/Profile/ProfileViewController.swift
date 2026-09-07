@@ -104,8 +104,8 @@ extension ProfileViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 1 {
-            let loginController = LogInViewController()
-            navigationController?.pushViewController(loginController, animated: true)
+            let photosViewController = PhotosViewController()
+            navigationController?.pushViewController(photosViewController, animated: true)
         }
     }
 }

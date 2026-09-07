@@ -10,8 +10,8 @@ import UIKit
 
 class PhotosViewController: UIViewController {
     
-    private let collectionView: UICollectionView = {
-        let viewLayout = UICollectionViewLayout()
+    private let photosCollectionView: UICollectionView = {
+        let viewLayout = UICollectionViewFlowLayout()
         
         let collectionView = UICollectionView(
             frame: .zero,
@@ -29,7 +29,9 @@ class PhotosViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //сюда методы готовые
+        setupView()
+        setupCollectionView()
+        setupLayouts()
     }
     
     func setupView() {
@@ -38,7 +40,7 @@ class PhotosViewController: UIViewController {
     }
     
     func setupCollectionView() {
-        view.addSubview(collectionView)
+        view.addSubview(photosCollectionView)
         
         //сюда делегаты
     }
@@ -47,15 +49,14 @@ class PhotosViewController: UIViewController {
         let safeAreaGuide = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: safeAreaGuide.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: safeAreaGuide.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor),
+            photosCollectionView.topAnchor.constraint(equalTo: safeAreaGuide.topAnchor),
+            photosCollectionView.bottomAnchor.constraint(equalTo: safeAreaGuide.bottomAnchor),
+            photosCollectionView.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor),
+            photosCollectionView.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor),
         ])
     }
     
-    
-    
+    //+ delegates
     
     
 }
