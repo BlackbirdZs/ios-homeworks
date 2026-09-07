@@ -14,7 +14,7 @@ class PhotosTableViewCell: UITableViewCell {
         reuseIdentifier: String?
     ) {
         super.init(
-            style: .subtitle,
+            style: .default,
             reuseIdentifier: reuseIdentifier
         )
         tuneView()
@@ -49,7 +49,7 @@ class PhotosTableViewCell: UITableViewCell {
         let arrowImage = UIImageView()
         arrowImage.translatesAutoresizingMaskIntoConstraints = false
         arrowImage.image = UIImage(systemName: "arrow.right")
-        arrowImage.backgroundColor = .systemBackground
+        arrowImage.backgroundColor = .clear
 
         return arrowImage
     }()
@@ -134,7 +134,7 @@ class PhotosTableViewCell: UITableViewCell {
         contentView.backgroundColor = .white
         accessoryType = .none
     }
-    
+
     func addSubviews() {
         contentView.addSubview(photosLabelView)
         contentView.addSubview(arrowImage)
