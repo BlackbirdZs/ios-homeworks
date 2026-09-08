@@ -11,7 +11,38 @@ class ProfileViewController: UIViewController {
     let profileHeaderView = ProfileHeaderView()
 
     fileprivate let posts = FeedPost.make()
-
+    
+    private lazy var newBackgroundView: UIView = {
+        let newBackgroundView = UIView()
+        newBackgroundView.translatesAutoresizingMaskIntoConstraints = false
+        newBackgroundView.backgroundColor = .black
+        newBackgroundView.alpha = 0.0
+    
+        return newBackgroundView
+    }()
+    
+    private lazy var closeButton: UIButton = {
+        let closeButton = UIButton()
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        closeButton.setImage(UIImage(named: "xmark"), for: .normal)
+        closeButton.tintColor = .white
+        closeButton.alpha = 0.0
+        closeButton.addTarget(self, action: <#T##Selector#>, for: .touchUpInside)
+        
+        return closeButton
+    }()
+    
+    private lazy var avatarImageView: UIImageView = {
+        let avatarImageView = UIImageView()
+        avatarImageView.translatesAutoresizingMaskIntoConstraints = false
+        avatarImageView.image = profileHeaderView.avatarImageView.image
+        avatarImageView.alpha = 0.0
+        avatarImageView.clipsToBounds = true
+        avatarImageView.isHidden = true
+        
+        return avatarImageView
+    }()
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView(
             frame: .zero,
