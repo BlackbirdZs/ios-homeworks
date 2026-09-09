@@ -9,8 +9,8 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     let profileHeaderView = ProfileHeaderView()
-
     fileprivate let posts = FeedPost.make()
+    private var avatarPreviousFrame: CGRect = .zero
 
     private lazy var avatarBackgroundView: UIView = {
         let avatarBackgroundView = UIView()
@@ -28,6 +28,7 @@ class ProfileViewController: UIViewController {
         closeButton.setImage(UIImage(named: "xmark"), for: .normal)
         closeButton.tintColor = .white
         closeButton.alpha = 0.0
+        closeButton.addTarget(self, action: #selector(didTapCloseButton), for: .touchUpInside)
 
         return closeButton
     }()
@@ -43,6 +44,34 @@ class ProfileViewController: UIViewController {
 
         return avatarImageView
     }()
+
+    private lazy var avatarTap: UITapGestureRecognizer = {
+        UITapGestureRecognizer(target: self, action: #selector(didTapAvatar))
+    }()
+
+    @objc private func didTapAvatar() {
+        print("avatar tapped")
+        let avatar = profileHeaderView.avatarImageView
+        
+        avatarPreviousFrame = avatar.convert(avatar.bounds, to: self.view)
+        
+        avatarImageView.isHidden = false
+        avatarImageView.frame = avatarPreviousFrame
+        avatarImageView.alpha = 1.0
+        avatar.isHidden = true
+        
+        // anims + radius
+        
+        
+        
+        
+    }
+
+    @objc private func didTapCloseButton() {
+        print("Tap close")
+
+        // + orig screen
+    }
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView(
@@ -61,14 +90,23 @@ class ProfileViewController: UIViewController {
         addSubviews()
         setupConstraints()
         tuneTableView()
+        setupAvatarForTap()
     }
 
     func setupView() {
         view.backgroundColor = .systemBackground
     }
 
+    func setupAvatarForTap() {
+        profileHeaderView.avatarImageView.isUserInteractionEnabled = true
+        profileHeaderView.avatarImageView.addGestureRecognizer(avatarTap)
+    }
+
     private func addSubviews() {
         view.addSubview(tableView)
+        view.addSubview(avatarBackgroundView)
+        view.addSubview(avatarImageView)
+        view.addSubview(closeButton)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -89,6 +127,14 @@ class ProfileViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: safeAreaGuide.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor),
+            
+            avatarBackgroundView.topAnchor.constraint(equalTo: view.topAnchor),
+            avatarBackgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            avatarBackgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            avatarBackgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            closeButton.topAnchor.constraint(equalTo: safeAreaGuide.topAnchor, constant: 16),
+            closeButton.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor, constant: -16),
         ])
     }
 
