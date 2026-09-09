@@ -11,38 +11,39 @@ class ProfileViewController: UIViewController {
     let profileHeaderView = ProfileHeaderView()
 
     fileprivate let posts = FeedPost.make()
-    
-    private lazy var newBackgroundView: UIView = {
-        let newBackgroundView = UIView()
-        newBackgroundView.translatesAutoresizingMaskIntoConstraints = false
-        newBackgroundView.backgroundColor = .black
-        newBackgroundView.alpha = 0.0
-    
-        return newBackgroundView
+
+    private lazy var avatarBackgroundView: UIView = {
+        let avatarBackgroundView = UIView()
+        avatarBackgroundView.translatesAutoresizingMaskIntoConstraints = false
+        avatarBackgroundView.backgroundColor = .black
+        avatarBackgroundView.alpha = 0.0
+
+        return avatarBackgroundView
     }()
-    
+
     private lazy var closeButton: UIButton = {
         let closeButton = UIButton()
         closeButton.translatesAutoresizingMaskIntoConstraints = false
+        closeButton.isUserInteractionEnabled = true
         closeButton.setImage(UIImage(named: "xmark"), for: .normal)
         closeButton.tintColor = .white
         closeButton.alpha = 0.0
-        closeButton.addTarget(self, action: <#T##Selector#>, for: .touchUpInside)
-        
+
         return closeButton
     }()
-    
+
     private lazy var avatarImageView: UIImageView = {
         let avatarImageView = UIImageView()
         avatarImageView.translatesAutoresizingMaskIntoConstraints = false
+        avatarImageView.isUserInteractionEnabled = true
         avatarImageView.image = profileHeaderView.avatarImageView.image
         avatarImageView.alpha = 0.0
         avatarImageView.clipsToBounds = true
         avatarImageView.isHidden = true
-        
+
         return avatarImageView
     }()
-    
+
     private lazy var tableView: UITableView = {
         let tableView = UITableView(
             frame: .zero,
@@ -55,11 +56,19 @@ class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
 
+        setupView()
         addSubviews()
         setupConstraints()
         tuneTableView()
+    }
+
+    func setupView() {
+        view.backgroundColor = .systemBackground
+    }
+
+    private func addSubviews() {
+        view.addSubview(tableView)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -90,10 +99,6 @@ class ProfileViewController: UIViewController {
         tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: "Photos cell")
         tableView.delegate = self
         tableView.dataSource = self
-    }
-
-    private func addSubviews() {
-        view.addSubview(tableView)
     }
 }
 
