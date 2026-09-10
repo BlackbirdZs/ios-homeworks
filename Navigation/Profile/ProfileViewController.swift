@@ -25,7 +25,7 @@ class ProfileViewController: UIViewController {
         let closeButton = UIButton()
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         closeButton.isUserInteractionEnabled = true
-        closeButton.setImage(UIImage(named: "xmark"), for: .normal)
+        closeButton.setImage(UIImage(systemName: "xmark"), for: .normal)
         closeButton.tintColor = .white
         closeButton.alpha = 0.0
         closeButton.addTarget(self, action: #selector(didTapCloseButton), for: .touchUpInside)
@@ -35,7 +35,6 @@ class ProfileViewController: UIViewController {
 
     private lazy var avatarImageView: UIImageView = {
         let avatarImageView = UIImageView()
-        avatarImageView.translatesAutoresizingMaskIntoConstraints = false
         avatarImageView.isUserInteractionEnabled = true
         avatarImageView.image = profileHeaderView.avatarImageView.image
         avatarImageView.alpha = 0.0
@@ -50,27 +49,56 @@ class ProfileViewController: UIViewController {
     }()
 
     @objc private func didTapAvatar() {
-        print("avatar tapped")
         let avatar = profileHeaderView.avatarImageView
-        
-        avatarPreviousFrame = avatar.convert(avatar.bounds, to: self.view)
-        
+
+        avatarPreviousFrame = avatar.convert(avatar.bounds, to: view)
+        avatarImageView.layer.cornerRadius = avatarPreviousFrame.height / 2
+    
+
         avatarImageView.isHidden = false
         avatarImageView.frame = avatarPreviousFrame
         avatarImageView.alpha = 1.0
         avatar.isHidden = true
-        
-        // anims + radius
-        
-        
-        
-        
+
+        UIView.animate(withDuration: 0.5,
+                       delay: 0.0,
+                       options: .curveEaseOut,
+                       animations: {
+                           self.avatarImageView.center = CGPoint(
+                               x: self.view.center.x,
+                               y: self.view.center.y
+                           )
+                           let avatarWidth = self.view.bounds.width
+                           self.avatarImageView.bounds = CGRect(x: 0, y: 0, width: avatarWidth, height: avatarWidth)
+                           self.avatarBackgroundView.alpha = 0.8
+                           self.avatarImageView.layer.cornerRadius = 0
+                       }, completion: { _ in
+                           UIView.animate(withDuration: 0.3) {
+                               self.closeButton.alpha = 1.0
+                           }
+                       })
     }
 
     @objc private func didTapCloseButton() {
-        print("Tap close")
+        let avatar = profileHeaderView.avatarImageView
 
-        // + orig screen
+        UIView.animate(
+            withDuration: 0.3,
+            animations: {
+                self.closeButton.alpha = 0.0
+            }, completion: { _ in
+                UIView.animate(withDuration: 0.5,
+                               delay: 0.0,
+                               options: .curveEaseOut,
+                               animations: {
+                                   self.avatarBackgroundView.alpha = 0.0
+                                   self.avatarImageView.frame = self.avatarPreviousFrame
+                                   self.avatarImageView.layer.cornerRadius = avatar.layer.cornerRadius
+                               }, completion: { _ in
+                                   self.avatarImageView.isHidden = true
+                                   avatar.isHidden = false
+                               })
+            })
     }
 
     private lazy var tableView: UITableView = {
@@ -127,14 +155,16 @@ class ProfileViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: safeAreaGuide.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor),
-            
+
             avatarBackgroundView.topAnchor.constraint(equalTo: view.topAnchor),
             avatarBackgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             avatarBackgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             avatarBackgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            
+
             closeButton.topAnchor.constraint(equalTo: safeAreaGuide.topAnchor, constant: 16),
             closeButton.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor, constant: -16),
+            closeButton.widthAnchor.constraint(equalToConstant: 40),
+            closeButton.heightAnchor.constraint(equalTo: closeButton.widthAnchor),
         ])
     }
 
