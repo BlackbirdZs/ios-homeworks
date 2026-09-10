@@ -9,8 +9,97 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     let profileHeaderView = ProfileHeaderView()
-
     fileprivate let posts = FeedPost.make()
+    private var avatarPreviousFrame: CGRect = .zero
+
+    private lazy var avatarBackgroundView: UIView = {
+        let avatarBackgroundView = UIView()
+        avatarBackgroundView.translatesAutoresizingMaskIntoConstraints = false
+        avatarBackgroundView.backgroundColor = .black
+        avatarBackgroundView.alpha = 0.0
+
+        return avatarBackgroundView
+    }()
+
+    private lazy var closeButton: UIButton = {
+        let closeButton = UIButton()
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        closeButton.isUserInteractionEnabled = true
+        closeButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+        closeButton.tintColor = .white
+        closeButton.alpha = 0.0
+        closeButton.addTarget(self, action: #selector(didTapCloseButton), for: .touchUpInside)
+
+        return closeButton
+    }()
+
+    private lazy var avatarImageView: UIImageView = {
+        let avatarImageView = UIImageView()
+        avatarImageView.isUserInteractionEnabled = true
+        avatarImageView.image = profileHeaderView.avatarImageView.image
+        avatarImageView.alpha = 0.0
+        avatarImageView.clipsToBounds = true
+        avatarImageView.isHidden = true
+
+        return avatarImageView
+    }()
+
+    private lazy var avatarTap: UITapGestureRecognizer = {
+        UITapGestureRecognizer(target: self, action: #selector(didTapAvatar))
+    }()
+
+    @objc private func didTapAvatar() {
+        let avatar = profileHeaderView.avatarImageView
+
+        avatarPreviousFrame = avatar.convert(avatar.bounds, to: view)
+        avatarImageView.layer.cornerRadius = avatarPreviousFrame.height / 2
+    
+
+        avatarImageView.isHidden = false
+        avatarImageView.frame = avatarPreviousFrame
+        avatarImageView.alpha = 1.0
+        avatar.isHidden = true
+
+        UIView.animate(withDuration: 0.5,
+                       delay: 0.0,
+                       options: .curveEaseOut,
+                       animations: {
+                           self.avatarImageView.center = CGPoint(
+                               x: self.view.center.x,
+                               y: self.view.center.y
+                           )
+                           let avatarWidth = self.view.bounds.width
+                           self.avatarImageView.bounds = CGRect(x: 0, y: 0, width: avatarWidth, height: avatarWidth)
+                           self.avatarBackgroundView.alpha = 0.8
+                           self.avatarImageView.layer.cornerRadius = 0
+                       }, completion: { _ in
+                           UIView.animate(withDuration: 0.3) {
+                               self.closeButton.alpha = 1.0
+                           }
+                       })
+    }
+
+    @objc private func didTapCloseButton() {
+        let avatar = profileHeaderView.avatarImageView
+
+        UIView.animate(
+            withDuration: 0.3,
+            animations: {
+                self.closeButton.alpha = 0.0
+            }, completion: { _ in
+                UIView.animate(withDuration: 0.5,
+                               delay: 0.0,
+                               options: .curveEaseOut,
+                               animations: {
+                                   self.avatarBackgroundView.alpha = 0.0
+                                   self.avatarImageView.frame = self.avatarPreviousFrame
+                                   self.avatarImageView.layer.cornerRadius = avatar.layer.cornerRadius
+                               }, completion: { _ in
+                                   self.avatarImageView.isHidden = true
+                                   avatar.isHidden = false
+                               })
+            })
+    }
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView(
@@ -24,11 +113,28 @@ class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
 
+        setupView()
         addSubviews()
         setupConstraints()
         tuneTableView()
+        setupAvatarForTap()
+    }
+
+    func setupView() {
+        view.backgroundColor = .systemBackground
+    }
+
+    func setupAvatarForTap() {
+        profileHeaderView.avatarImageView.isUserInteractionEnabled = true
+        profileHeaderView.avatarImageView.addGestureRecognizer(avatarTap)
+    }
+
+    private func addSubviews() {
+        view.addSubview(tableView)
+        view.addSubview(avatarBackgroundView)
+        view.addSubview(avatarImageView)
+        view.addSubview(closeButton)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -49,6 +155,16 @@ class ProfileViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: safeAreaGuide.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: safeAreaGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor),
+
+            avatarBackgroundView.topAnchor.constraint(equalTo: view.topAnchor),
+            avatarBackgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            avatarBackgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            avatarBackgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+
+            closeButton.topAnchor.constraint(equalTo: safeAreaGuide.topAnchor, constant: 16),
+            closeButton.trailingAnchor.constraint(equalTo: safeAreaGuide.trailingAnchor, constant: -16),
+            closeButton.widthAnchor.constraint(equalToConstant: 40),
+            closeButton.heightAnchor.constraint(equalTo: closeButton.widthAnchor),
         ])
     }
 
@@ -59,10 +175,6 @@ class ProfileViewController: UIViewController {
         tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: "Photos cell")
         tableView.delegate = self
         tableView.dataSource = self
-    }
-
-    private func addSubviews() {
-        view.addSubview(tableView)
     }
 }
 
