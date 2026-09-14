@@ -19,16 +19,30 @@ class InfoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        setupView()
+        addSubviews()
+        setupConstraints()
+        buttonActionSetup()
+    }
+
+    func setupView() {
         view.backgroundColor = .cyan
         title = "Information"
+    }
 
+    func addSubviews() {
         view.addSubview(infoButton)
+    }
 
+    func setupConstraints() {
         NSLayoutConstraint.activate([
             infoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             infoButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
+    }
 
+    func buttonActionSetup() {
         infoButton.addTarget(self, action: #selector(infoButtonPressed), for: .touchUpInside)
     }
 

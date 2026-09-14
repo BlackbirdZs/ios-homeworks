@@ -35,16 +35,27 @@ class FeedViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        setupView()
+        setupConstraints()
+        setupButtonActions()
+    }
+
+    func setupView() {
         view.backgroundColor = .blue
-
         view.addSubview(buttonsStackView)
+    }
 
+    func setupConstraints() {
         let safeAreaLayoutGuide = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             buttonsStackView.centerXAnchor.constraint(
                 equalTo: safeAreaLayoutGuide.centerXAnchor),
             buttonsStackView.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor),
         ])
+    }
+
+    func setupButtonActions() {
         firstButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         secondButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
     }
